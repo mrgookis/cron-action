@@ -1,3 +1,3 @@
-moduel.exports = {
+module.exports = {
     Todo: require('./todo'),
 }

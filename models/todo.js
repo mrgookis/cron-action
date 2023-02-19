@@ -14,4 +14,4 @@ isComplete: {type: Boolean},
 
 const Todo = mongoose.model('Todo',TodoSchema);
 
-moduel.exports = Todo;
+module.exports = Todo;

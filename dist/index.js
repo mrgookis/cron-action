@@ -1,6 +1,38 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
+/***/ 53983:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+module.exports = {
+    Todo: __nccwpck_require__(12939),
+}
+
+/***/ }),
+
+/***/ 12939:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const mongoose = __nccwpck_require__(34740);
+
+const Schema = mongoose.Schema;
+
+
+const TodoSchema = new Schema( {
+title: {type: String, required: true},
+author: {type: String, required: true},
+body: {type: String},
+createdAt: {type: Date, default: Date.now()},
+updatedAt: {type: Date},
+isComplete: {type: Boolean},
+})
+
+const Todo = mongoose.model('Todo',TodoSchema);
+
+module.exports = Todo;
+
+/***/ }),
+
 /***/ 18427:
 /***/ ((__unused_webpack_module, exports, __nccwpck_require__) => {
 
@@ -25555,6 +25587,125 @@ formatters.O = function (v) {
 	this.inspectOpts.colors = this.useColors;
 	return util.inspect(v, this.inspectOpts);
 };
+
+
+/***/ }),
+
+/***/ 12437:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const fs = __nccwpck_require__(57147)
+const path = __nccwpck_require__(71017)
+const os = __nccwpck_require__(22037)
+const packageJson = __nccwpck_require__(49968)
+
+const version = packageJson.version
+
+const LINE = /(?:^|^)\s*(?:export\s+)?([\w.-]+)(?:\s*=\s*?|:\s+?)(\s*'(?:\\'|[^'])*'|\s*"(?:\\"|[^"])*"|\s*`(?:\\`|[^`])*`|[^#\r\n]+)?\s*(?:#.*)?(?:$|$)/mg
+
+// Parser src into an Object
+function parse (src) {
+  const obj = {}
+
+  // Convert buffer to string
+  let lines = src.toString()
+
+  // Convert line breaks to same format
+  lines = lines.replace(/\r\n?/mg, '\n')
+
+  let match
+  while ((match = LINE.exec(lines)) != null) {
+    const key = match[1]
+
+    // Default undefined or null to empty string
+    let value = (match[2] || '')
+
+    // Remove whitespace
+    value = value.trim()
+
+    // Check if double quoted
+    const maybeQuote = value[0]
+
+    // Remove surrounding quotes
+    value = value.replace(/^(['"`])([\s\S]*)\1$/mg, '$2')
+
+    // Expand newlines if double quoted
+    if (maybeQuote === '"') {
+      value = value.replace(/\\n/g, '\n')
+      value = value.replace(/\\r/g, '\r')
+    }
+
+    // Add to object
+    obj[key] = value
+  }
+
+  return obj
+}
+
+function _log (message) {
+  console.log(`[dotenv@${version}][DEBUG] ${message}`)
+}
+
+function _resolveHome (envPath) {
+  return envPath[0] === '~' ? path.join(os.homedir(), envPath.slice(1)) : envPath
+}
+
+// Populates process.env from .env file
+function config (options) {
+  let dotenvPath = path.resolve(process.cwd(), '.env')
+  let encoding = 'utf8'
+  const debug = Boolean(options && options.debug)
+  const override = Boolean(options && options.override)
+
+  if (options) {
+    if (options.path != null) {
+      dotenvPath = _resolveHome(options.path)
+    }
+    if (options.encoding != null) {
+      encoding = options.encoding
+    }
+  }
+
+  try {
+    // Specifying an encoding returns a string instead of a buffer
+    const parsed = DotenvModule.parse(fs.readFileSync(dotenvPath, { encoding }))
+
+    Object.keys(parsed).forEach(function (key) {
+      if (!Object.prototype.hasOwnProperty.call(process.env, key)) {
+        process.env[key] = parsed[key]
+      } else {
+        if (override === true) {
+          process.env[key] = parsed[key]
+        }
+
+        if (debug) {
+          if (override === true) {
+            _log(`"${key}" is already defined in \`process.env\` and WAS overwritten`)
+          } else {
+            _log(`"${key}" is already defined in \`process.env\` and was NOT overwritten`)
+          }
+        }
+      }
+    })
+
+    return { parsed }
+  } catch (e) {
+    if (debug) {
+      _log(`Failed to load ${dotenvPath} ${e.message}`)
+    }
+
+    return { error: e }
+  }
+}
+
+const DotenvModule = {
+  config,
+  parse
+}
+
+module.exports.config = DotenvModule.config
+module.exports.parse = DotenvModule.parse
+module.exports = DotenvModule
 
 
 /***/ }),
@@ -112443,14 +112594,6 @@ exports.URLSearchParams = URLSearchParams;
 
 /***/ }),
 
-/***/ 15281:
-/***/ ((module) => {
-
-module.exports = eval("require")("./models");
-
-
-/***/ }),
-
 /***/ 89076:
 /***/ ((module) => {
 
@@ -112739,6 +112882,14 @@ module.exports = JSON.parse('{"partitions":[{"id":"aws","outputs":{"dnsSuffix":"
 
 /***/ }),
 
+/***/ 49968:
+/***/ ((module) => {
+
+"use strict";
+module.exports = JSON.parse('{"name":"dotenv","version":"16.0.3","description":"Loads environment variables from .env file","main":"lib/main.js","types":"lib/main.d.ts","exports":{".":{"require":"./lib/main.js","types":"./lib/main.d.ts","default":"./lib/main.js"},"./config":"./config.js","./config.js":"./config.js","./lib/env-options":"./lib/env-options.js","./lib/env-options.js":"./lib/env-options.js","./lib/cli-options":"./lib/cli-options.js","./lib/cli-options.js":"./lib/cli-options.js","./package.json":"./package.json"},"scripts":{"dts-check":"tsc --project tests/types/tsconfig.json","lint":"standard","lint-readme":"standard-markdown","pretest":"npm run lint && npm run dts-check","test":"tap tests/*.js --100 -Rspec","prerelease":"npm test","release":"standard-version"},"repository":{"type":"git","url":"git://github.com/motdotla/dotenv.git"},"keywords":["dotenv","env",".env","environment","variables","config","settings"],"readmeFilename":"README.md","license":"BSD-2-Clause","devDependencies":{"@types/node":"^17.0.9","decache":"^4.6.1","dtslint":"^3.7.0","sinon":"^12.0.1","standard":"^16.0.4","standard-markdown":"^7.1.0","standard-version":"^9.3.2","tap":"^15.1.6","tar":"^6.1.11","typescript":"^4.5.4"},"engines":{"node":">=12"}}');
+
+/***/ }),
+
 /***/ 1693:
 /***/ ((module) => {
 
@@ -112805,9 +112956,11 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const mongoose = __nccwpck_require__(34740);
-const db = __nccwpck_require__(15281)
+const dotenv = __nccwpck_require__(12437);
+const db = __nccwpck_require__(53983);
+dotenv.config()
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb:localhost/todo');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/todo');
 
 async function seed() {
     const seedData = [
@@ -112817,6 +112970,7 @@ async function seed() {
     db.Todo.collection.insertMany(seedData).then(data => {
         console.log(`${data.result.n} records inserted!`)
     }).catch(err => console.log(err));
+    // db.Todo.find({}).then(data =>console.log(data.data))
 }
 
 seed()

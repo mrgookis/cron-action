@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
-const db = require('./models')
+const dotenv = require('dotenv');
+const db = require('../models');
+dotenv.config()
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb:localhost/todo');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/todo');
 
 async function seed() {
     const seedData = [
@@ -11,6 +13,7 @@ async function seed() {
     db.Todo.collection.insertMany(seedData).then(data => {
         console.log(`${data.result.n} records inserted!`)
     }).catch(err => console.log(err));
+    // db.Todo.find({}).then(data =>console.log(data.data))
 }
 
 seed()
