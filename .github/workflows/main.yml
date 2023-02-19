@@ -1,0 +1,12 @@
+name: 'Test Cron Job'
+
+on:
+  schedule:
+    - cron: '15 * * * *'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ./
