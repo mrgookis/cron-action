@@ -2,11 +2,12 @@ name: 'Test Cron Job'
 
 on:
   schedule:
-    - cron: '23 * * * *'
+    - cron: "50 * * * *"
 
 jobs:
   cron:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Seed Todo's
       - uses: ./
