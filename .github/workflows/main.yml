@@ -9,5 +9,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Seed Todo's
+      - name: Seed Todos
       - uses: ./
