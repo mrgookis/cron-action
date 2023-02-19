@@ -1,0 +1,7 @@
+name: 'Cron Job Test'
+description: 'Test if we can insert on cron job'
+author: 'mrgookis'
+
+runs:
+  using: 'node16'
+  main: dist/index.js
