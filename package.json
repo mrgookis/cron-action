@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/mrgookis/cron-action#readme",
   "dependencies": {
-    "@vercel/ncc": "^0.36.1"
+    "@vercel/ncc": "^0.36.1",
+    "mongoose": "^6.9.2"
   }
 }
