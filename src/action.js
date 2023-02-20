@@ -1,12 +1,15 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const db = require('../models');
+const core = require('@actions/core')
+
+const MONGODB_URI = core.getInput('MONGODB_URI')
 
 dotenv.config();
 
 mongoose.set('strictQuery',false)
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
