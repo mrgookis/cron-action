@@ -19,4 +19,4 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./
       - with:
-          MONGODB_URI: ${{ secrects.MONGODB_URI }}
+          MONGODB_URI: ${{secrects.MONGODB_URI}}
