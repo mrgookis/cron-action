@@ -2,6 +2,11 @@ name: 'Cron Job Test'
 description: 'Test if we can insert on cron job'
 author: 'mrgookis'
 
+inputs:
+  MONGODB_URI:
+    description: MongoDB URI for Todos
+    required: true
+
 runs:
   using: 'node16'
   main: dist/index.js
