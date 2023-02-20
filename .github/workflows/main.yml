@@ -18,5 +18,5 @@ jobs:
       # Runs a single command using the runners shell
       - uses: actions/checkout@v3
       - uses: ./
-      - with:
+        with:
           MONGODB_URI: ${{ secrects.MONGODB_URI }}
