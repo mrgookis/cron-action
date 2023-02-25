@@ -21,11 +21,12 @@ connection.once('open', async () => {
   console.log('Connected to MongoDB');
 
   const seedData = [
-    {title: 'cron action', body: 'cron job', isComplete: true},
-    {title: 'cron action - 2', body: 'cron job - 2', isComplete: true}
+    {title: 'cron action', body: 'cron job', isComplete: true, createdAt: new Date(Date.now())},
+    {title: 'cron action - 2', body: 'cron job - 2', isComplete: true, createdAt: new Date(Date.now())}
   ];
 
   try {
+    await db.Todo.deleteMany().then(data=> console.log(`Deleted rows.`)).catch(err => console.log(err))
     const result = await db.Todo.collection.insertMany(seedData);
     console.log(`${result.insertedCount} records inserted!`);
     process.exit();
