@@ -9,7 +9,7 @@ dotenv.config();
 
 mongoose.set('strictQuery',false)
 
-mongoose.connect(MONGODB_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -27,7 +27,7 @@ connection.once('open', async () => {
 
   try {
     const result = await db.Todo.collection.insertMany(seedData);
-    console.log(`${result.result.length} records inserted!`);
+    console.log(`${result.insertedCount} records inserted!`);
     process.exit();
   } catch (err) {
     console.error(err);
