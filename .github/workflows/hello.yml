@@ -1,4 +1,4 @@
-name: First Cron Job
+name: Hello World
 
        # Controls when the workflow will run
 on:
@@ -17,4 +17,4 @@ jobs:
     steps:
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, world!
+        run: echo Hello, world! 🌎
